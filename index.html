@@ -271,22 +271,28 @@ let selectedSpecies = null;
 let modal;
 
 // --- Afbeeldingen per soort ---
-const speciesImages = { "Eekhoorn":"eekhoorn.jpg","Vos":"vos.jpg","Edelhert":"edelhert.jpg","Walvis":"walvis.jpg","Eland":"eland.jpg","Bever":"bever.jpg",
+const speciesImages = { "Eekhoorn":"eekhoorn.jpg","Vos":"vos.jpg","Beer":"beer.jpg","Lynx":"lynx.jpg","Wolf":"wolf.jpg","Edelhert":"edelhert.jpg","Rendier":"rendier.jpg", "Walvis":"walvis.jpg","Eland":"eland.jpg","Bever":"bever.jpg",
   "Hond":"hond.jpg","Kat":"kat.jpg","Otter":"otter.jpg","Konijn":"konijn.jpg","Haas":"haas.jpg","Muis":"muis.jpg",
-  "Zeearend":"zeearend.jpg","Uil":"uil.jpg","Specht":"specht.jpg","Bonte Kraai":"bonte_kraai.jpg","Vink":"vink.jpg","Boomklever":"boomklever.jpg",
+  
+                       "Zeearend":"zeearend.jpg","Uil":"uil.jpg","Specht":"specht.jpg","Bonte Kraai":"bonte_kraai.jpg","Vink":"vink.jpg","Boomklever":"boomklever.jpg",
   "Grote Mantelmeeuw":"grote_mantelmeeuw.jpg","Koolmees":"koolmees.jpg","Pimpelmees":"pimpelmees.jpg","Mus":"mus.jpg","Houtduif":"houtduif.jpg","Geelgors":"geelgors.jpg",
-  "Kruipbraam":"kruipbraam.jpg","Struikheide":"struikheide.jpg","Rode Bosbes":"rode_bosbes.jpg","Wilgenroosje":"wilgenroosje.jpg","Adelaarsvaren":"adelaarsvaren.jpg",
+  
+                       "Kruipbraam":"kruipbraam.jpg","Struikheide":"struikheide.jpg","Rode Bosbes":"rode_bosbes.jpg","Wilgenroosje":"wilgenroosje.jpg","Adelaarsvaren":"adelaarsvaren.jpg",
   "Blauwe Bosbes":"blauwe_bosbes.jpg","Jacobskruiskruid":"jacobskruiskruid.jpg","Duizendblad":"duizendblad.jpg","Lijsterbes":"lijsterbbes.jpg","Muurpeper":"muurpeper.jpg",
-  "Knoopkruid":"knoopkruid.jpg","Gewone Ereprijs":"gewone_ereprijs.jpg","Citroenvlinder":"citroenvlinder.jpg","Kleine Vos":"kleine_vos.jpg","Rouwmantel":"rouwmantel.jpg",
+  "Knoopkruid":"knoopkruid.jpg","Gewone Ereprijs":"gewone_ereprijs.jpg",
+                       
+                       "Citroenvlinder":"citroenvlinder.jpg","Kleine Vos":"kleine_vos.jpg","Rouwmantel":"rouwmantel.jpg",
   "Dagpauwoog":"dagpauwoog.jpg","Bont Zandoogje":"bont_zandoogje.jpg","Gouden Tor":"gouden_tor.jpg","Lieveheersbeestje":"lieveheersbeestje.jpg","Libelle":"libelle.jpg",
-  "Distelvlinder":"distelvlinder.jpg","Gewone Komkommerspin":"gewone_komkommerspin.jpg","Falunrood Houten Huisje":"falunrood_houten_huisje.jpg",
+  "Distelvlinder":"distelvlinder.jpg","Gewone Komkommerspin":"gewone_komkommerspin.jpg",
+                       
+                       "Falunrood Houten Huisje":"falunrood_houten_huisje.jpg",
   "Geel Houten Huisje":"geel_houten_huisje.jpg","Waarschuwingsbord Eland":"waarschuwingsbord_eland.jpg","Deense Vlag":"deense_vlag.jpg",
   "Zweedse Gehaktballetjes":"zweedse_gehaktballetjes.jpg","Kaneelbroodje":"kaneelbroodje.jpg","Ikea":"ikea.jpg",
   "Visser":"visser.jpg","Staafkerk":"staafkerk.jpg","Elandsouvenir":"elandsouvenir.jpg","Zweedse Vlag":"zweedse_vlag.jpg","Noorse Vlag":"noorse_vlag.jpg" };
 
 // --- Soorten naar categorie (compact) ---
 const speciesCategories = {
-  "Eekhoorn":"Zoogdieren","Vos":"Zoogdieren","Edelhert":"Zoogdieren","Walvis":"Zoogdieren","Eland":"Zoogdieren","Bever":"Zoogdieren",
+  "Eekhoorn":"Zoogdieren","Vos":"Zoogdieren","Beer":"Zoogdieren","Lynx":"Zoogdieren","Wolf":"Zoogdieren","Edelhert":"Zoogdieren","Rendier":"Zoogdieren","Walvis":"Zoogdieren","Eland":"Zoogdieren","Bever":"Zoogdieren",
   "Hond":"Zoogdieren","Kat":"Zoogdieren","Otter":"Zoogdieren","Konijn":"Zoogdieren","Haas":"Zoogdieren","Muis":"Zoogdieren",
   
   "Zeearend":"Vogels","Uil":"Vogels","Specht":"Vogels","Bonte Kraai":"Vogels","Vink":"Vogels","Boomklever":"Vogels","Grote Mantelmeeuw":"Vogels",
