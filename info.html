@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Informatie Over Soorten </title>
+
+<style>
+body {
+  font-family: Gill Sans, sans-serif;
+  margin: 0;
+  background-image: url('background.jpg');
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+  background-color: #FF0000;
+  color: #FFD208;
+  font-size: 1.8em;
+  font-weight: bold;
+}
+
+.container {
+  width: 90%;
+  max-width: 400px;
+  margin: 20px auto;
+  background: #FF0000;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.card {
+  background: #FFD208;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  max-width: 200px;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.back-btn {
+  margin: 10px;
+  padding: 10px;
+  background-color: #3B4CCA;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Informatie Over Soort</div>
+
+<button class="back-btn" onclick="history.back()">⬅️ Terug</button>
+
+<div class="container">
+  <div class="card">
+    <h2 id="title"></h2>
+    <img id="image">
+    <p id="description"></p>
+  </div>
+</div>
+
+<script>
+// 🔹 soort ophalen uit URL
+const params = new URLSearchParams(window.location.search);
+const soort = params.get("soort");
+
+// 🔹 titel zetten
+document.getElementById("title").textContent = soort;
+
+// 🔹 afbeelding (zelfde namen als je hoofdsite)
+document.getElementById("image").src = soort.toLowerCase().replaceAll(" ", "_") + ".jpg";
+
+// 🔹 HIER KUN JE TEKSTEN TOEVOEGEN
+const info = {
+  "Eekhoorn": "",
+  "Vos": "",
+  "Edelhert": "",
+  "Walvis" : "",
+  "Eland" : "",
+  "Bever" : "",
+  "Hond" : "",
+  "Kat" : "",
+  "Otter" : "",
+  "Konijn" : "",
+  "Haas" : "",
+  "Muis" : "",
+  "Zeearend" : "",
+  "Uil" : "",
+  "Specht" : "",
+  "Bonte Kraai" : "",
+  "Vink" : "",
+  "Boomklever" : "",
+  "Grote Mantelmeeuw" : "",
+  "Koolmees" : "",
+  "Pimpelmees" : "",
+  "Mus" : "",
+  "Houtduif" : "",
+  "Geelgors" : "",
+  "Kruipbraam" : "",
+  "Struikheide" : "",
+  "Rode Bosbes" : "",
+  "Wilgenroosje" : "",
+  "Adelaarsvaren" : "",
+  "Blauwe Bosbes" : "",
+  "Jacobskruiskruid" : "",
+  "Duizendblad" : "",
+  "Lijsterbes" : "",
+  "Muurpeper" : "",
+  "Knoopkruid" : "",
+  "Gewone Ereprijs" : "",
+  "Citroenvlinder" : "",
+  "Kleine os" : "",
+  "Rouwmantel" : "",
+  "Dagpauwoog" : "",
+  "Bont Zandoogje" : "",
+  "Gouden Tor" : "",
+  "Lieveheersbeestje" : "",
+  "Libelle" : "",
+  "Distelvlinder" : "",
+  "Gewone Komkommerspin" : "",
+  "Falunrood Houten Huisje" : "",
+  "Geel Houten Huisje" : "",
+  "Waarschuwingsbord Eland" : "",
+  "Deense Vlag" : "",
+  "Zweedse Gehaktballetjes" : "",
+  "Kaneelbroodje" : "",
+  "Ikea" : "",
+  "Visser" : "",
+  "Staafkerk" : "",
+  "Elandsouvenir" : "",
+  "Zweedse Vlag" : "",
+  "Noorse Vlag" : "",
+};
+
+// fallback als je nog geen tekst hebt
+document.getElementById("description").textContent =
+  info[soort] || "Oeps! Hier moet nog wat info komen!";
+</script>
+
+</body>
+</html>
