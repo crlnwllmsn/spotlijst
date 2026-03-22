@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Spotlijster</title>
+<style>
+/* --- Algemene pagina-styling --- */
+body {
+  font-family: Gill Sans, sans-serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  background-image: url('background.jpg');
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: top center;
+}
+
+/* --- Header --- */
+.header {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #FF0000;
+  color: #FFD208;
+  font-size: 1.8em;
+  font-weight: bold;
+}
+
+/* --- Navigatieknoppen --- */
+.nav-buttons {
+  text-align: center;
+  margin: 10px 0;
+}
+.nav-buttons button {
+  margin: 5px;
+  padding: 10px 15px;
+  background-color: #3B4CCA;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.nav-buttons button:hover {
+  background-color: #FFD208;
+  color: #000;
+  transform: scale(1.05);
+}
+
+/* --- Containers voor content --- */
+.content-container,
+#formPage, #ranglijstPage, #profilePage, #naturdexPage {
+  width: 90%;
+  max-width: 400px;
+  margin: 15px auto;
+  padding: 10px;
+  background-color: #FF0000;
+  border-radius: 12px;
+}
+
+/* --- Formulierelementen --- */
+input, select, button.submit-btn { 
+  display: block; 
+  margin: 10px 0; 
+  width: 100%; 
+  box-sizing: border-box; 
+}
+button.submit-btn {
+  background-color: #3B4CCA;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.2s;
+}
+button.submit-btn:hover {
+  background-color: #FFD208;
+  color: #000;
+  transform: scale(1.05);
+}
+
+/* --- Elementen verbergen --- */
+.hidden { display: none; }
+
+/* --- Kaarten voor observaties --- */
+.card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #FFD208;
+}
+.card img {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 150px;
+  display: block;
+  margin: 5px auto;
+}
+
+/* --- Titels --- */
+h2 { text-align: center; color: #FFD208; }
+
+/* --- Naturdex grid --- */
+.naturdex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+.poke-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.9em;
+  border: 2px solid #3B4CCA;
+}
+.poke-card img { width: 100%; max-width: 120px; margin: 0 auto; border-radius: 6px; }
+.poke-card strong, .poke-card small { display: block; word-wrap: break-word; overflow-wrap: break-word; font-size: 0.9em; }
+
+/* --- Toastmelding --- */
+#toast {
+  position: fixed;
+  top: calc(50% + 220px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(50,50,50,0.9);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  display: none;
+  z-index: 1001;
+  text-align: center;
+}
+
+/* --- GIF --- */
+#celebrateGif {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  width: 400px;
+  height: auto;
+  z-index: 1000;
+}
+
+/* --- Confetti --- */
+.confetti {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1002;
+  opacity: 0.8;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .content-container, #formPage, #ranglijstPage, #profilePage, #naturdexPage {
+    width: 85%;
+    max-width: 350px;
+    padding: 8px;
+    margin: 10px auto;
+  }
+  .poke-card { padding: 6px; font-size: 0.85em; }
+  .poke-card img { max-width: 100px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">De Spotlijster</div>
+
+<!-- Navigatie -->
+<div class="nav-buttons">
+  <button onclick="showPage('form')">Nieuwe observatie</button>
+  <button onclick="showPage('ranglijst')">Ranglijst</button>
+  <button onclick="showPage('naturdex')">Naturdex</button>
+</div>
+
+<div class="content-container">
+  <!-- Formulierpagina -->
+  <div id="formPage" class="hidden">
+    <h2>Nieuwe observatie</h2>
+    <select id="name">
+      <option value="">Kies je team</option>
+      <option>Tjalle & Caro</option>
+      <option>Lars & Mariska</option>
+      <option>Jens & Tim</option>
+    </select>
+    <select id="category" onchange="updateSpeciesOptions()">
+      <option value="">Kies categorie</option>
+      <option value="Zoogdieren">Zoogdieren</option>
+      <option value="Vogels">Vogels</option>
+      <option value="Planten">Planten</option>
+      <option value="Vlinders & Kruipers">Vlinders & Kruipers</option>
+      <option value="Scandidingen">Scandidingen</option>
+    </select>
+    <select id="species">
+      <option value="">Wat heb je gezien?</option>
+    </select>
+    <input type="date" id="date" required>
+    <input id="location" placeholder="Locatie">
+    <button class="submit-btn" onclick="addObservation()">Opslaan</button>
+  </div>
+
+  <!-- Ranglijstpagina -->
+  <div id="ranglijstPage" class="hidden">
+    <h2>Ranglijst</h2>
+    <div id="ranglijst"></div>
+  </div>
+
+  <!-- Profielpagina -->
+  <div id="profilePage" class="hidden">
+    <h2 id="profileName"></h2>
+    <div id="profileList"></div>
+  </div>
+
+  <!-- Naturdexpagina -->
+  <div id="naturdexPage" class="hidden">
+    <h2>Naturdex</h2>
+    <div id="naturdex"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<img id="celebrateGif" src="Celebration_Pokemon_GIF.gif" alt="Gefeliciteerd!">
+
+<script>
+// --- Data opslaan en initialiseren ---
+let observations = JSON.parse(localStorage.getItem("observations")) || [];
+let currentProfile = null;
+
+// --- Afbeeldingen per soort ---
+const speciesImages = { "Eekhoorn":"eekhoorn.jpg","Vos":"vos.jpg","Edelhert":"edelhert.jpg","Walvis":"walvis.jpg","Eland":"eland.jpg","Bever":"bever.jpg",
+  "Hond":"hond.jpg","Kat":"kat.jpg","Otter":"otter.jpg","Konijn":"konijn.jpg","Haas":"haas.jpg","Muis":"muis.jpg",
+  "Zeearend":"zeearend.jpg","Uil":"uil.jpg","Specht":"specht.jpg","Bonte Kraai":"bonte_kraai.jpg","Vink":"vink.jpg","Boomklever":"boomklever.jpg",
+  "Grote Mantelmeeuw":"grote_mantelmeeuw.jpg","Koolmees":"koolmees.jpg","Pimpelmees":"pimpelmees.jpg","Mus":"mus.jpg","Houtduif":"houtduif.jpg","Geelgors":"geelgors.jpg",
+  "Kruipbraam":"kruipbraam.jpg","Struikheide":"struikheide.jpg","Rode Bosbes":"rode_bosbes.jpg","Wilgenroosje":"wilgenroosje.jpg","Adelaarsvaren":"adelaarsvaren.jpg",
+  "Blauwe Bosbes":"blauwe_bosbes.jpg","Jacobskruiskruid":"jacobskruiskruid.jpg","Duizendblad":"duizendblad.jpg","Lijsterbes":"lijsterbbes.jpg","Muurpeper":"muurpeper.jpg",
+  "Knoopkruid":"knoopkruid.jpg","Gewone Ereprijs":"gewone_ereprijs.jpg","Citroenvlinder":"citroenvlinder.jpg","Kleine Vos":"kleine_vos.jpg","Rouwmantel":"rouwmantel.jpg",
+  "Dagpauwoog":"Dagpauwoog.jpg","Bont Zandoogje":"Bont Zandoogje.jpg","Gouden tor":"Gouden tor.jpg","Lieveheersbeestje":"Lieveheersbeestje.jpg","Libelle":"Libelle.jpg",
+  "Distelvlinder":"distelvlinder.jpg","Gewone Komkommerspin":"gewone_komkommerspin.jpg","Falunrood Houten Huisje":"falunrood_houten_huisje.jpg",
+  "Geel Houten Huisje":"geel_houten_huisje.jpg","Waarschuwingsbord Eland":"waarschuwingsbord_eland.jpg","Deense Vlag":"deense_vlag.jpg",
+  "Zweedse Gehaktballetjes":"zweedse_gehaktballetjes.jpg","Kaneelbroodje":"kaneelbroodje.jpg","Ikea":"ikea.jpg",
+  "Visser":"visser.jpg","Staafkerk":"staafkerk.jpg","Elandsouvenir":"elandsouvenir.jpg","Zweedse vlag":"zweedse_vlag.jpg","Noorse Vlag":"noorse_vlag.jpg" };
+
+// --- Soorten naar categorie (compact) ---
+const speciesCategories = {
+  "Eekhoorn":"Zoogdieren","Vos":"Zoogdieren","Edelhert":"Zoogdieren","Walvis":"Zoogdieren","Eland":"Zoogdieren","Bever":"Zoogdieren",
+  "Hond":"Zoogdieren","Kat":"Zoogdieren","Otter":"Zoogdieren","Konijn":"Zoogdieren","Haas":"Zoogdieren","Muis":"Zoogdieren",
+  
+  "Zeearend":"Vogels","Uil":"Vogels","Specht":"Vogels","Bonte Kraai":"Vogels","Vink":"Vogels","Boomklever":"Vogels","Grote Mantelmeeuw":"Vogels",
+  "Koolmees":"Vogels","Pimpelmees":"Vogels","Mus":"Vogels","Houtduif":"Vogels","Geelgors":"Vogels",
+  
+  "Kruipbraam":"Planten","Struikheide":"Planten","Rode Bosbes":"Planten","Wilgenroosje":"Planten","Adelaarsvaren":"Planten",
+  "Blauwe Bosbes":"Planten","Jacobskruiskruid":"Planten","Duizendblad":"Planten","Lijsterbes":"Planten","Muurpeper":"Planten",
+  "Knoopkruid":"Planten","Gewone Ereprijs":"Planten",
+  
+  "Citroenvlinder":"Vlinders & Kruipers","Kleine Vos":"Vlinders & Kruipers","Rouwmantel":"Vlinders & Kruipers","Dagpauwoog":"Vlinders & Kruipers",
+  "Bont Zandoogje":"Vlinders & Kruipers","Gouden tor":"Vlinders & Kruipers","Lieveheersbeestje":"Vlinders & Kruipers","Libelle":"Vlinders & Kruipers",
+  "Distelvlinder":"Vlinders & Kruipers","Gewone Komkommerspin":"Vlinders & Kruipers",
+  
+  "Falunrood Houten Huisje":"Scandidingen","Geel Houten Huisje":"Scandidingen","Waarschuwingsbord Eland":"Scandidingen","Deense Vlag":"Scandidingen",
+  "Zweedse gehaktballetjes":"Scandidingen","Kaneelbroodje":"Scandidingen","Ikea":"Scandidingen",
+  "Visser":"Scandidingen","Staafkerk":"Scandidingen","Elandsouvenir":"Scandidingen","Zweedse vlag":"Scandidingen","Noorse Vlag":"Scandidingen"
+};
+
+// --- Kleur per categorie ---
+const categoryColors = { "Zoogdieren":"#EB96D3","Vogels":"#96D0EB","Planten":"#C6EB96","Vlinders & Kruipers":"#D096EB","Scandidingen":"#F2DD80","Overig":"#ADD8E6" };
+
+/* --- Pagina tonen --- */
+function showPage(page){
+  ["formPage","ranglijstPage","profilePage","naturdexPage"].forEach(id => document.getElementById(id).classList.add("hidden"));
+  if(page==="form") document.getElementById("formPage").classList.remove("hidden");
+  if(page==="ranglijst"){ 
+    document.getElementById("ranglijstPage").classList.remove("hidden"); 
+    renderLeaderboard(); 
+  }
+  if(page==="naturdex"){ 
+    document.getElementById("naturdexPage").classList.remove("hidden"); 
+    renderNaturdex(); 
+  }
+}
+
+/* --- Soorten bij categorie updaten --- */
+function updateSpeciesOptions(){
+  const category=document.getElementById("category").value;
+  const speciesSelect=document.getElementById("species");
+  speciesSelect.innerHTML='<option value="">Wat heb je gezien?</option>';
+  Object.entries(speciesCategories).forEach(([species,cat])=>{
+    if(cat===category || category===""){
+      const option=document.createElement("option");
+      option.value=species;
+      option.textContent=species;
+      speciesSelect.appendChild(option);
+    }
+  });
+}
+
+/* --- Observatie toevoegen --- */
+function addObservation(){
+  const name=document.getElementById("name").value;
+  const species=document.getElementById("species").value;
+  const date=document.getElementById("date").value;
+  const location=document.getElementById("location").value;
+  if(!name){alert("Vul je naam in"); return;}
+  if(!species){alert("Kies een soort!"); return;}
+  if(observations.some(o=>o.name===name && o.species===species)){alert("Deze observatie heb je al eerder gedaan!"); return;}
+  observations.push({name,species,date,location});
+  localStorage.setItem("observations",JSON.stringify(observations));
+  showGifAndToast(species);
+  showGlitterConfetti();
+}
+
+/* --- Toon GIF en toast 2 seconden --- */
+function showGifAndToast(species){
+  const gif=document.getElementById('celebrateGif');
+  const toast=document.getElementById('toast');
+  gif.style.display='block';
+  toast.textContent=`Je hebt ${species} gespot!`;
+  toast.style.display='block';
+  setTimeout(()=>{ gif.style.display='none'; toast.style.display='none'; }, 2000);
+}
+
+/* --- Confetti animatie --- */
+function showGlitterConfetti(){
+  const colors=['#FFD700','#FF6347','#00BFFF','#90EE90','#FF69B4','#FF8C00'];
+  for(let i=0;i<50;i++){
+    const conf=document.createElement('div');
+    conf.className='confetti';
+    conf.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+    conf.style.left=Math.random()*window.innerWidth+'px';
+    conf.style.top=Math.random()*window.innerHeight+'px';
+    const size=Math.random()*6+4+'px';
+    conf.style.width=size;
+    conf.style.height=size;
+    document.body.appendChild(conf);
+    const animDuration=Math.random()*2000+1500;
+    const angle=Math.random()*360;
+    const speed=Math.random()*2+1;
+    const fade=setInterval(()=>{
+      conf.style.top=(parseFloat(conf.style.top)+speed)+'px';
+      conf.style.transform=`rotate(${angle}deg)`;
+    },16);
+    setTimeout(()=>{clearInterval(fade); conf.remove();}, animDuration);
+  }
+}
+
+/* --- Ranglijst renderen --- */
+function renderLeaderboard(){
+  const scores = {};
+  // Voor alle observaties
+  observations.forEach(o=>{
+    // Hoeveel teams hebben deze soort al gespot vóór deze observatie?
+    const previousTeams = observations.filter(obs => obs.species === o.species && obs.name !== o.name && observations.indexOf(obs) < observations.indexOf(o)).map(obs => obs.name);
+    let points = 1;
+    if(previousTeams.length === 0) points = 3;  // eerste spotter
+    else if(previousTeams.length === 1) points = 2; // tweede spotter
+    scores[o.name] = (scores[o.name] || 0) + points;
+  });
+
+  const container = document.getElementById("ranglijst");
+  container.innerHTML = "";
+  Object.entries(scores).forEach(([name, score]) => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `${name} – ${score} ${score === 1 ? 'punt' : 'punten'}`;
+    div.onclick = () => showProfile(name);
+    container.appendChild(div);
+  });
+}
+
+/* --- Profiel tonen --- */
+function showProfile(name){
+  currentProfile=name;
+  document.getElementById("profilePage").classList.remove("hidden");
+  document.getElementById("ranglijstPage").classList.add("hidden");
+  const list=document.getElementById("profileList");
+  list.innerHTML="";
+  observations.map((o,i)=>({...o,index:i})).filter(o=>o.name===name).forEach(o=>{
+    const img=speciesImages[o.species];
+    const div=document.createElement("div");
+    div.className="card";
+    div.innerHTML=`
+      <strong>${o.species}</strong><br>
+      ${img?`<img src="${img}" alt="${o.species}">`:''}
+      📍 ${o.location}<br>
+      📅 ${new Date(o.date).toLocaleDateString('nl-NL')}<br>
+      <button onclick="deleteObservation(${o.index})">❌</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+/* --- Observatie verwijderen --- */
+function deleteObservation(index){
+  if(!confirm("Weet je zeker dat je deze observatie wilt verwijderen?")) return;
+  observations.splice(index,1);
+  localStorage.setItem("observations",JSON.stringify(observations));
+  showProfile(currentProfile);
+}
+
+/* --- Naturdex renderen --- */
+function renderNaturdex(){
+  const container=document.getElementById("naturdex");
+  container.innerHTML="";
+  const grid=document.createElement("div");
+  grid.className="naturdex-grid";
+  Object.keys(speciesImages).forEach(species=>{
+    const isCaught=observations.some(o=>o.species===species);
+    const category=speciesCategories[species]||"Overig";
+    const color=categoryColors[category]||"#ccc";
+    const div=document.createElement("div");
+    div.className=`poke-card ${isCaught?"caught":"not-caught"}`;
+    div.style.backgroundColor=color;
+    div.innerHTML=`
+      <strong>${species}</strong><br>
+      <img src="${speciesImages[species]}" alt="${species}"><br>
+      <div>${isCaught?"🟢":"🔴"}</div>
+      <small>${category}</small>
+    `;
+    grid.appendChild(div);
+  });
+  container.appendChild(grid);
+}
+</script>
+</body>
+</html>
