@@ -217,7 +217,7 @@ h2 { text-align: center; color: #FFD208; }
 <div class="content-container">
   <!-- Formulierpagina -->
   <div id="formPage" class="hidden">
-    <h2>Nieuwe observatie</h2>
+    <h2>➕ Nieuwe observatie</h2>
     <select id="name">
       <option value="">Kies je team</option>
       <option>Tjalle & Caro</option>
@@ -242,7 +242,7 @@ h2 { text-align: center; color: #FFD208; }
 
   <!-- Ranglijstpagina -->
   <div id="ranglijstPage" class="hidden">
-    <h2>Ranglijst</h2>
+    <h2>🥇 Ranglijst</h2>
     <div id="ranglijst"></div>
   </div>
 
@@ -254,7 +254,7 @@ h2 { text-align: center; color: #FFD208; }
 
   <!-- Naturdexpagina -->
   <div id="naturdexPage" class="hidden">
-    <h2>Naturdex</h2>
+    <h2>📕 Naturdex</h2>
     <div id="naturdex"></div>
   </div>
 </div>
@@ -431,7 +431,7 @@ function showProfile(name){
       <strong>${o.species}</strong><br>
       ${img?`<img src="${img}" alt="${o.species}">`:''}
       📍 ${o.location}<br>
-      📅 ${new Date(o.date).toLocaleDateString('nl-NL')}<br>
+      🗓️ ${new Date(o.date).toLocaleDateString('nl-NL')}<br>
       <button onclick="deleteObservation(${o.index})">❌</button>
     `;
     list.appendChild(div);
@@ -440,7 +440,7 @@ function showProfile(name){
 
 /* --- Observatie verwijderen --- */
 function deleteObservation(index){
-  if(!confirm("Weet je zeker dat je deze observatie wilt verwijderen?")) return;
+  if(!confirm("🆘 Weet je zeker dat je deze observatie wilt verwijderen?")) return;
   observations.splice(index,1);
   localStorage.setItem("observations",JSON.stringify(observations));
   showProfile(currentProfile);
